@@ -1,12 +1,13 @@
-FROM openjdk:21-slim
+FROM eclipse-temurin:21-jre-alpine
 
-ADD . /usr/local/message
+WORKDIR /app
 
-WORKDIR /usr/local/message
-
-COPY target ./
+# Use the executable JAR
+COPY target/restful-booker-platform-message-*-exec.jar ./message.jar
 
 ENV authDomain=rbp-auth
 ENV profile=dev
 
-ENTRYPOINT java -jar -Dspring.profiles.active=$profile target/restful-booker-platform-message-*.jar -D
+ENV JAVA_OPTS="-Xms128m -Xmx384m -XX:MaxMetaspaceSize=96m -XX:+UseContainerSupport"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar -Dspring.profiles.active=$profile -Dhoneycomb.beeline.write-key=${HONEYCOMB_API_KEY} ./message.jar"]

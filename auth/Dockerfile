@@ -1,12 +1,12 @@
-FROM openjdk:21-slim
+FROM eclipse-temurin:21-jre-alpine
 
-ADD . /usr/local/auth
+WORKDIR /app
 
-WORKDIR /usr/local/auth
+# Use the executable JAR
+COPY target/restful-booker-platform-auth-*-exec.jar ./auth.jar
 
 ENV profile=dev
 
-COPY target ./
+ENV JAVA_OPTS="-Xms128m -Xmx384m -XX:MaxMetaspaceSize=96m -XX:+UseContainerSupport"
 
-ENTRYPOINT java -jar -Dspring.profiles.active=$profile -Dhoneycomb.beeline.write-key=${HONEYCOMB_API_KEY} restful-booker-platform-auth-*.jar
-
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar -Dspring.profiles.active=$profile -Dhoneycomb.beeline.write-key=${HONEYCOMB_API_KEY} ./auth.jar"]
