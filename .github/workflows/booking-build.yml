@@ -34,8 +34,8 @@ jobs:
       run: |
         if [ -f target/restful-booker-platform-booking-*-exec.jar ]; then
           VERSION=$(ls target/restful-booker-platform-booking-*-exec.jar | cut -d '-' -f 5 | cut -c1-11)
-          docker build -t mwinteringham/restfulbookerplatform_booking:$VERSION .
-          docker push mwinteringham/restfulbookerplatform_booking:$VERSION
+          docker build -t mwinteringham/restfulbookerplatform_booking:latest .
+          docker push mwinteringham/restfulbookerplatform_booking:latest
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         else
           echo "Booking JAR file not found"
