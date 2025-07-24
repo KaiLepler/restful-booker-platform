@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import fetchRetry from 'fetch-retry';
-
-const fetch = fetchRetry(global.fetch);
+import { fetchWithRetry as fetch } from '../../../../../utils/fetch-retry';
 
 export async function PUT(
   request: Request,
