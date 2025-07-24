@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import fetchRetry from 'fetch-retry';
+
+const fetch = fetchRetry(global.fetch);
 
 export async function GET(
   request: Request,

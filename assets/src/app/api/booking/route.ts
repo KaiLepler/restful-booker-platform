@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import fetchRetry from 'fetch-retry';
+
+const fetch = fetchRetry(global.fetch);
 
 export async function GET(request: Request) {
   try {

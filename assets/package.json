@@ -11,6 +11,7 @@
     "test:watch": "jest --watchAll"
   },
   "dependencies": {
+    "fetch-retry": "^6.0.0",
     "next": "15.3.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
@@ -90,9 +91,12 @@
     ],
     "testEnvironment": "jsdom",
     "transform": {
-      ".+\\.(ts|tsx)$": ["ts-jest", {
-        "tsconfig": "tsconfig.test.json"
-      }]
+      ".+\\.(ts|tsx)$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.test.json"
+        }
+      ]
     },
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy"
