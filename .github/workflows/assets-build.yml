@@ -45,5 +45,5 @@ jobs:
       run: |
         VERSION=$(grep '"version":' package.json | sed 's/.*"version": "\(.*\)",/\1/').$(git rev-parse --short HEAD)
         docker build -t mwinteringham/restfulbookerplatform_assets:latest .
-        docker push mwinteringham/restfulbookerplatform_assets:$latest
+        docker push mwinteringham/restfulbookerplatform_assets:latest
         echo "VERSION=$VERSION" >> $GITHUB_ENV
