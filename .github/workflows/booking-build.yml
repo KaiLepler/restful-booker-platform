@@ -41,25 +41,3 @@ jobs:
           echo "Booking JAR file not found"
           exit 1
         fi
-    # Deploy to EC2
-    - name: Deploy to EC2
-      if: github.ref == 'refs/heads/trunk'
-      env:
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-        EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        # Setup SSH
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/private_key
-        chmod 600 ~/.ssh/private_key
-        
-        # Execute deployment commands directly via SSH
-        DOCKER_IMAGE="mwinteringham/restfulbookerplatform_booking:${VERSION}"
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ${EC2_USERNAME}@${EC2_HOST} "
-          sudo docker pull ${DOCKER_IMAGE} && \
-          sudo docker stop rbp-booking || true && \
-          sudo docker rm rbp-booking || true && \
-          sudo docker images -q mwinteringham/restfulbookerplatform_booking | grep -v \$(sudo docker images ${DOCKER_IMAGE} -q) | xargs -r sudo docker rmi || true && \
-          sudo docker run -d --network rbp-host --name rbp-booking -p 3000:3000 -e dbRefresh='60' ${DOCKER_IMAGE}
-        " 
